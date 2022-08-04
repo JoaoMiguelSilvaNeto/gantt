@@ -3,6 +3,24 @@
     <link rel="stylesheet" href="https://raw.githubusercontent.com/JoaoMiguelSilvaNeto/gantt/main/dhtmlxgantt.css" 
     type="text/css"> 
     <script src="https://raw.githubusercontent.com/JoaoMiguelSilvaNeto/gantt/main/dhtmlxgantt.js"></script>
+    <style>
+      html, body
+        {
+            height: 100%;
+            padding: 0px;
+            margin: 0px;
+            overflow: hidden;
+        }
+
+		.gantt_task_line.gantt_dependent_task {
+			background-color: #65c16f;
+			border: 1px solid #3c9445;
+
+		}
+		.gantt_task_line.gantt_dependent_task .gantt_task_progress {
+			background-color: #46ad51;
+		}
+    </style>
   </head>
   <body>
     <div id="gantt_here" style="width: 100%; height: 90%;"></div>
@@ -10,5 +28,68 @@
     <button type="button" onclick="print()">Print</button>
   </div>
 </div>
+  <script>
+    var demo_tasks = {
+			"data":[
+				{"id":11, "text":"Project #1", "start_date":"", "duration":"", "progress": 0.6, "open": true},
+
+				{"id":12, "text":"Task #1", "start_date":"03-04-2013", "duration":"5", "parent":"11", "progress": 1, "open": true},
+				{"id":13, "text":"Task #2", "start_date":"", "duration":"", "parent":"11", "progress": 0.5, "open": true},
+				{"id":14, "text":"Task #3", "start_date":"02-04-2013", "duration":"6", "parent":"11", "progress": 0.8, "open": true},
+				{"id":15, "text":"Task #4", "start_date":"", "duration":"", "parent":"11", "progress": 0.2, "open": true},
+				{"id":16, "text":"Task #5", "start_date":"02-04-2013", "duration":"7", "parent":"11", "progress": 0, "open": true},
+
+				{"id":17, "text":"Task #2.1", "start_date":"03-04-2013", "duration":"2", "parent":"13", "progress": 1, "open": true},
+				{"id":18, "text":"Task #2.2", "start_date":"06-04-2013", "duration":"3", "parent":"13", "progress": 0.8, "open": true},
+				{"id":19, "text":"Task #2.3", "start_date":"10-04-2013", "duration":"4", "parent":"13", "progress": 0.2, "open": true},
+				{"id":20, "text":"Task #2.4", "start_date":"10-04-2013", "duration":"4", "parent":"13", "progress": 0, "open": true},
+				{"id":21, "text":"Task #4.1", "start_date":"03-04-2013", "duration":"4", "parent":"15", "progress": 0.5, "open": true},
+				{"id":22, "text":"Task #4.2", "start_date":"03-04-2013", "duration":"4", "parent":"15", "progress": 0.1, "open": true},
+				{"id":23, "text":"Task #4.3", "start_date":"03-04-2013", "duration":"5", "parent":"15", "progress": 0, "open": true}
+			],
+			"links":[]
+		};
+
+		gantt.config.lightbox.sections = [
+			{name: "description", height: 70, map_to: "text", type: "textarea", focus: true},
+			{name: "time", height: 72, type: "duration", map_to: "auto"}
+		];
+
+		gantt.config.scale_unit = "month";
+		gantt.config.date_scale = "%F, %Y";
+
+		gantt.config.scale_height = 50;
+
+		gantt.config.subscales = [
+			{unit:"day", step:1, date:"%j, %D" }
+		];
+
+  gantt.config.show_grid = !gantt.config.show_grid;
+
+		gantt.init("gantt_here");
+
+		gantt.parse(demo_tasks);
+
+//gantt.config.show_grid = !gantt.config.show_grid;
+    //gantt.render()
+
+function print(){
+  //window.html2canvas = html2canvas
+  //console.log("oi");
+  //var doc = new jsPDF('l','pt','letter');
+ //console.log(doc);
+  //doc.html(document.getElementById('gantt_here'), {
+    //pagesplit: true,
+		//callback: function(doc) {
+      
+      //console.log("hey");
+			//doc.save("output.pdf");
+		//},
+		//x: 10,
+		//y: 10
+	//});
+  gantt.exportToPDF();
+}
+  </script>
   </body>
 </html>
